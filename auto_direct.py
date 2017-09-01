@@ -6,8 +6,8 @@ import copy
 cross_on_term = 60
 cross_off_term = 30
 traffic_rate = 0.1
-road_r = 4
-road_l = 128
+road_r = 32
+road_l = 64
 
 cell_empty = 0
 cell_road = 1
@@ -25,9 +25,31 @@ numpy.random.seed(0)
 
 tic_field = numpy.zeros((road_r,road_l),dtype=int)
 
-tic_field[1:3,1:road_l-1] = cell_road
-tic_field[1:3,40] = (cross_on_term<<4)+cell_cross_EW
-tic_field[1:3,80] = (cross_on_term<<4)+cell_cross_EW
+tic_field[8,1:road_l-1] = cell_road
+tic_field[10,1:road_l-1] = cell_road
+tic_field[24,1:road_l-1] = cell_road
+tic_field[26,1:road_l-1] = cell_road
+tic_field[1:road_r-1,16] = cell_road
+tic_field[1:road_r-1,18] = cell_road
+tic_field[1:road_r-1,48] = cell_road
+tic_field[1:road_r-1,50] = cell_road
+
+tic_field[8,16] = (cross_on_term<<4)+cell_cross_EW
+tic_field[8,18] = (cross_on_term<<4)+cell_cross_EW
+tic_field[10,16] = (cross_on_term<<4)+cell_cross_EW
+tic_field[10,18] = (cross_on_term<<4)+cell_cross_EW
+tic_field[8,48] = (cross_on_term<<4)+cell_cross_EW
+tic_field[8,50] = (cross_on_term<<4)+cell_cross_EW
+tic_field[10,48] = (cross_on_term<<4)+cell_cross_EW
+tic_field[10,50] = (cross_on_term<<4)+cell_cross_EW
+tic_field[24,16] = (cross_on_term<<4)+cell_cross_EW
+tic_field[24,18] = (cross_on_term<<4)+cell_cross_EW
+tic_field[26,16] = (cross_on_term<<4)+cell_cross_EW
+tic_field[26,18] = (cross_on_term<<4)+cell_cross_EW
+tic_field[24,48] = (cross_on_term<<4)+cell_cross_EW
+tic_field[24,50] = (cross_on_term<<4)+cell_cross_EW
+tic_field[26,48] = (cross_on_term<<4)+cell_cross_EW
+tic_field[26,50] = (cross_on_term<<4)+cell_cross_EW
 
 toc_field = copy.deepcopy(tic_field)
 
@@ -103,11 +125,37 @@ for loop in range(100000000) :
 
 
     # loading car
-
-    if toc_field[2,1] == cell_road :
+    if toc_field[10,1] == cell_road :
         if numpy.random.rand() < traffic_rate :
-            toc_field[2,1] = (direction_E<<4)+cell_car
+            toc_field[10,1] = (direction_E<<4)+cell_car
 
+    if toc_field[26,1] == cell_road :
+        if numpy.random.rand() < traffic_rate :
+            toc_field[26,1] = (direction_E<<4)+cell_car
+
+    if toc_field[8,road_l-2] == cell_road :
+        if numpy.random.rand() < traffic_rate :
+            toc_field[8,road_l-2] = (direction_W<<4)+cell_car
+
+    if toc_field[24,road_l-2] == cell_road :
+        if numpy.random.rand() < traffic_rate :
+            toc_field[24,road_l-2] = (direction_W<<4)+cell_car
+
+    if toc_field[1,16] == cell_road :
+        if numpy.random.rand() < traffic_rate :
+            toc_field[1,16] = (direction_S<<4)+cell_car
+
+    if toc_field[1,48] == cell_road :
+        if numpy.random.rand() < traffic_rate :
+            toc_field[1,48] = (direction_S<<4)+cell_car
+
+    if toc_field[road_r-2,18] == cell_road :
+        if numpy.random.rand() < traffic_rate :
+            toc_field[road_r-2,18] = (direction_N<<4)+cell_car
+
+    if toc_field[road_r-2,50] == cell_road :
+        if numpy.random.rand() < traffic_rate :
+            toc_field[road_r-2,50] = (direction_N<<4)+cell_car
 
     # print road
     for i in range(road_r):
